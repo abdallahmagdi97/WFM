@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\aedris\source\repos\WFM\WFM\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2022-01-11T10:00:55.1791944Z;True|2022-01-10T15:15:27.0160590+02:00;True|2022-01-10T13:48:44.4958031+02:00;</History>
+  </PropertyGroup>
+</Project>
