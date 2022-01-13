@@ -1,0 +1,48 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "restored": true,
+      "restoreTime": "2022-01-12T12:22:50.5809679Z"
+    },
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2022-01-12T12:48:52.3731904Z"
+    },
+    "apis1": {
+      "restored": true,
+      "restoreTime": "2022-01-12T12:20:21.4999652Z"
+    }
+  },
+  "parameters": {
+    "mssql2.subscriptionId": {
+      "Name": "mssql2.subscriptionId",
+      "Type": "subscription",
+      "Value": "a06a21a6-9517-432d-9c55-75bc08854c32"
+    },
+    "apis1.resourceGroupName": {
+      "Name": "apis1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "iskraemeco"
+    },
+    "mssql2.resourceGroupName": {
+      "Name": "mssql2.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "iskraemeco"
+    },
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "a06a21a6-9517-432d-9c55-75bc08854c32"
+    },
+    "apis1.subscriptionId": {
+      "Name": "apis1.subscriptionId",
+      "Type": "subscription",
+      "Value": "a06a21a6-9517-432d-9c55-75bc08854c32"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "iskraemeco"
+    }
+  }
+}
