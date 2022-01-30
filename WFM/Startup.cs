@@ -42,7 +42,16 @@ namespace WFM
                 });
             });
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost.com")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                                  });
+            });
             services.AddControllers();
 
             // For Entity Framework  

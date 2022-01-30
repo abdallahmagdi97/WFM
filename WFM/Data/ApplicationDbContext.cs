@@ -27,5 +27,8 @@ namespace WFM.Data
         public DbSet<WFM.Models.Address> Address { get; set; }
         public DbSet<WFM.Models.Status> Status { get; set; }
         public DbSet<WFM.Models.AssignTicketRequest> AssignTicketRequest { get; set; }
+        public DbSet<WFM.Models.TicketSkills> TicketSkills { get; set; }
+        public DbSet<WFM.Models.CustomerMeters> CustomerMeters { get; set; }
+        public DbSet<WFM.Models.TechSkills> TechSkills { get; set; }
     }
 }

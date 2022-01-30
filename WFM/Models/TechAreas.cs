@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace WFM.Models
 {
-    public class AssignTicketRequest
+    public class TechAreas
     {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Ticket")]
-        public int TicketRefId { get; set; }
         [ForeignKey("Tech")]
         public int TechRefId { get; set; }
-        public bool IsApprovedByTech { get; set; }
-        public bool IsForceAssigned { get; set; }
+        [ForeignKey("Area")]
+        public int AreasRefId { get; set; }
     }
 }

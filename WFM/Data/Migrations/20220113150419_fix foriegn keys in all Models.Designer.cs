@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WFM.Data;
 
 namespace WFM.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220113150419_fix foriegn keys in all Models")]
+    partial class fixforiegnkeysinallModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,30 +315,15 @@ namespace WFM.Data.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("WFM.Models.CustomerMeters", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MeterRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerMeters");
-                });
-
             modelBuilder.Entity("WFM.Models.Meter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CustomerRefId")
                         .HasColumnType("int");
@@ -348,6 +335,8 @@ namespace WFM.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Meter");
                 });
@@ -398,27 +387,15 @@ namespace WFM.Data.Migrations
                     b.Property<string>("NationalID")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TechAreasRefId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TechSkillsRefId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tech");
-                });
-
-            modelBuilder.Entity("WFM.Models.TechSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TechRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TechSkills");
                 });
 
             modelBuilder.Entity("WFM.Models.Ticket", b =>
@@ -452,27 +429,12 @@ namespace WFM.Data.Migrations
                     b.Property<int>("TechRefId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TicketSkillsRefId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Ticket");
-                });
-
-            modelBuilder.Entity("WFM.Models.TicketSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TicketSkills");
                 });
 
             modelBuilder.Entity("WFM.Models.Users.ApplicationUser", b =>
@@ -546,6 +508,13 @@ namespace WFM.Data.Migrations
                         .HasForeignKey("AddressRefId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WFM.Models.Meter", b =>
+                {
+                    b.HasOne("WFM.Models.Customer", null)
+                        .WithMany("Meter")
+                        .HasForeignKey("CustomerId");
                 });
 #pragma warning restore 612, 618
         }

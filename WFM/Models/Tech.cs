@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WFM.Models
 {
@@ -8,9 +9,7 @@ namespace WFM.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Skill> Skills { get; set; }
         public string NationalID { get; set; }
         public string Mobile { get; set; }
-        public List<Area> Area { get; set; }
     }
 }

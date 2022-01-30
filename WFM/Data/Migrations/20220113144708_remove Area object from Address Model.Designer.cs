@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WFM.Data;
 
 namespace WFM.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220113144708_remove Area object from Address Model")]
+    partial class removeAreaobjectfromAddressModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,7 +257,12 @@ namespace WFM.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TechId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TechId");
 
                     b.ToTable("Area");
                 });
@@ -280,6 +287,10 @@ namespace WFM.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TechRefId");
+
+                    b.HasIndex("TicketRefId");
 
                     b.ToTable("AssignTicketRequest");
                 });
@@ -313,24 +324,6 @@ namespace WFM.Data.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("WFM.Models.CustomerMeters", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CustomerRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MeterRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerMeters");
-                });
-
             modelBuilder.Entity("WFM.Models.Meter", b =>
                 {
                     b.Property<int>("Id")
@@ -349,6 +342,8 @@ namespace WFM.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerRefId");
+
                     b.ToTable("Meter");
                 });
 
@@ -362,7 +357,17 @@ namespace WFM.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TechId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TicketId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TechId");
+
+                    b.HasIndex("TicketId");
 
                     b.ToTable("Skill");
                 });
@@ -403,24 +408,6 @@ namespace WFM.Data.Migrations
                     b.ToTable("Tech");
                 });
 
-            modelBuilder.Entity("WFM.Models.TechSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TechRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TechSkills");
-                });
-
             modelBuilder.Entity("WFM.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -454,25 +441,19 @@ namespace WFM.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressRefId");
+
+                    b.HasIndex("AreaRefId");
+
+                    b.HasIndex("CustomerRefId");
+
+                    b.HasIndex("MeterRefId");
+
+                    b.HasIndex("StatusRefId");
+
+                    b.HasIndex("TechRefId");
+
                     b.ToTable("Ticket");
-                });
-
-            modelBuilder.Entity("WFM.Models.TicketSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TicketSkills");
                 });
 
             modelBuilder.Entity("WFM.Models.Users.ApplicationUser", b =>
@@ -539,11 +520,92 @@ namespace WFM.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WFM.Models.Area", b =>
+                {
+                    b.HasOne("WFM.Models.Tech", null)
+                        .WithMany("Area")
+                        .HasForeignKey("TechId");
+                });
+
+            modelBuilder.Entity("WFM.Models.AssignTicketRequest", b =>
+                {
+                    b.HasOne("WFM.Models.Tech", "Tech")
+                        .WithMany()
+                        .HasForeignKey("TechRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Ticket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WFM.Models.Customer", b =>
                 {
                     b.HasOne("WFM.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WFM.Models.Meter", b =>
+                {
+                    b.HasOne("WFM.Models.Customer", "Customer")
+                        .WithMany("Meter")
+                        .HasForeignKey("CustomerRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WFM.Models.Skill", b =>
+                {
+                    b.HasOne("WFM.Models.Tech", null)
+                        .WithMany("Skills")
+                        .HasForeignKey("TechId");
+
+                    b.HasOne("WFM.Models.Ticket", null)
+                        .WithMany("Skills")
+                        .HasForeignKey("TicketId");
+                });
+
+            modelBuilder.Entity("WFM.Models.Ticket", b =>
+                {
+                    b.HasOne("WFM.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Area", "Area")
+                        .WithMany()
+                        .HasForeignKey("AreaRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Meter", "Meter")
+                        .WithMany()
+                        .HasForeignKey("MeterRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusRefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFM.Models.Tech", "Tech")
+                        .WithMany()
+                        .HasForeignKey("TechRefId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

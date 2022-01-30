@@ -18,6 +18,5 @@ namespace WFM.Models
         public Address Address { get; set; }
         [ForeignKey("Address")]
         public int AddressRefId { get; set; }
-        public List<Meter> Meter { get; set; }
     }
 }

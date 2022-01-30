@@ -8,7 +8,6 @@ namespace WFM.Models
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
-        public Area Area { get; set; }
         [ForeignKey("Area")]
         public int AreaRefId { get; set; }
         public float Longitude { get; set; }
