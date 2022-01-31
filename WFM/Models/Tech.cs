@@ -11,5 +11,7 @@ namespace WFM.Models
         public string Name { get; set; }
         public string NationalID { get; set; }
         public string Mobile { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
