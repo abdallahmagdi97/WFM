@@ -12,6 +12,14 @@
     <Compile Remove="Data\Migrations\20220105140205_Adding Models and API Controllers.Designer.cs" />
     <Compile Remove="Data\Migrations\20220105141024_Adding Models and API Controllers.cs" />
     <Compile Remove="Data\Migrations\20220105141024_Adding Models and API Controllers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220201140837_test.cs" />
+    <Compile Remove="Data\Migrations\20220201140837_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220201141329_test.cs" />
+    <Compile Remove="Data\Migrations\20220201141329_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220201141726_test.cs" />
+    <Compile Remove="Data\Migrations\20220201141726_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220201142413_test.cs" />
+    <Compile Remove="Data\Migrations\20220201142413_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

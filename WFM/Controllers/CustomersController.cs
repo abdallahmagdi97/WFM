@@ -25,32 +25,53 @@ namespace WFM.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<IEnumerable<CustomerModel>>> GetCustomer()
         {
-            return await _context.Customer.ToListAsync();
+            var customers = await _context.Customer.ToListAsync();
+            var customerModel = new List<CustomerModel>();
+            for (int i = 0; i< customers.Count; i++)
+            {
+                Customer customer = new Customer()
+                {
+                    Id = customers[i].Id,
+                    Name = customers[i].Name,
+                    NationalID = customers[i].NationalID,
+                    Mobile = customers[i].Mobile,
+                    Number = customers[i].Number
+                };
+                customerModel.Add(new CustomerModel()
+                {
+                    Customer = customer,
+                    Addresses = await _context.Address.Where(x => x.CustomerRefId == customers[i].Id).ToListAsync()
+            });
+            }
+            return customerModel;
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<CustomerModel>> GetCustomer(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-
-            if (customer == null)
+            CustomerModel customerModel = new CustomerModel()
+            {
+                Customer = await _context.Customer.FindAsync(id),
+                Addresses = await _context.Address.Where(x => x.CustomerRefId == id).ToListAsync()
+            };
+            if (customerModel.Customer == null)
             {
                 return NotFound();
             }
 
-            return customer;
+            return customerModel;
         }
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(int id, CustomerModel customer)
         {
-            if (id != customer.Id)
+            if (id != customer.Customer.Id)
             {
                 return BadRequest();
             }
@@ -80,12 +101,18 @@ namespace WFM.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(CustomerModel customer)
         {
-            _context.Customer.Add(customer);
+            _context.Customer.Add(customer.Customer);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            for (int i = 0; i < customer.Addresses.Count; i++)
+            {
+                customer.Addresses[i].CustomerRefId = customer.Customer.Id;
+                _context.Address.Add(customer.Addresses[i]);
+                await _context.SaveChangesAsync();
+            }
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetCustomer", new { id = customer.Customer.Id }, customer);
         }
 
         // DELETE: api/Customers/5

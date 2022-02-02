@@ -12,5 +12,7 @@ namespace WFM.Models
         public int AreaRefId { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
+        [ForeignKey("Customer")]
+        public int CustomerRefId { get; set; }
     }
 }
