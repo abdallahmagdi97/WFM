@@ -98,20 +98,25 @@ namespace WFM.Controllers
         }
 
         // POST: api/Customers
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(CustomerModel customer)
         {
+            customer.Customer.CreationDate = DateTime.Now;
             _context.Customer.Add(customer.Customer);
             await _context.SaveChangesAsync();
-            for (int i = 0; i < customer.Addresses.Count; i++)
+            if (customer.Addresses != null)
             {
-                customer.Addresses[i].CustomerRefId = customer.Customer.Id;
-                _context.Address.Add(customer.Addresses[i]);
-                await _context.SaveChangesAsync();
+                if (customer.Addresses.Count != 0)
+                {
+                    for (int i = 0; i < customer.Addresses.Count; i++)
+                    {
+                        customer.Addresses[i].CustomerRefId = customer.Customer.Id;
+                        _context.Address.Add(customer.Addresses[i]);
+                        await _context.SaveChangesAsync();
+                    }
+                    await _context.SaveChangesAsync();
+                }
             }
-            await _context.SaveChangesAsync();
             return CreatedAtAction("GetCustomer", new { id = customer.Customer.Id }, customer);
         }
 

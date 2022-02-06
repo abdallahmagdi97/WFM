@@ -15,5 +15,6 @@ namespace WFM.Models
         public string Number { get; set; }
         public string NationalID { get; set; }
         public string Mobile { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }
