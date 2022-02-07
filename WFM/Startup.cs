@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WFM.Data;
-using WFM.Models.Users;
+using WFM.Models;
 
 
 namespace WFM
