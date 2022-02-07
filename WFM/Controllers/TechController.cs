@@ -37,11 +37,24 @@ namespace WFM.Controllers
         public async Task<ActionResult<Tech>> GetTech(int id)
         {
             var tech = await _context.Tech.FindAsync(id);
-
             if (tech == null)
             {
                 return NotFound();
             }
+            var techAreas = await _context.TechAreas.Where(t => t.TechRefId == id).ToListAsync();
+            var areas = new List<int>();
+            for (int i = 0; i < techAreas.Count; i++)
+            {
+                areas.Add(techAreas[i].AreaRefId);
+            }
+            tech.Areas = areas.ToArray();
+            var techSkills = await _context.TechSkills.Where(t => t.TechRefId == id).ToListAsync();
+            var skills = new List<int>();
+            for (int i = 0; i < techSkills.Count; i++)
+            {
+                areas.Add(techSkills[i].SkillRefId);
+            }
+            tech.Skills = skills.ToArray();
 
             return tech;
         }

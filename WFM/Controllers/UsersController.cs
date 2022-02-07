@@ -30,16 +30,17 @@ namespace WFM.Controllers
             List<UserModel> usersList = new List<UserModel>();
             foreach (var user in appUsers)
             {
-                usersList.Add(new UserModel() { UserName = user.UserName, Role = user.Role });
+                usersList.Add(new UserModel() { Id = user.Id, UserName = user.UserName, Role = user.Role, Password = user.Password });
             }
             return usersList;
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IdentityUser>> Get(int id)
+        public async Task<ActionResult<UserModel>> Get(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.ApplicationUser.FindAsync(id);
+            return new UserModel() { UserName = user.UserName, Role = user.Role, Password = user.Password };
         }
 
         // POST api/<UsersController>
@@ -50,24 +51,51 @@ namespace WFM.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutTech(string id, UserModel user)
         {
-        }
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+            ApplicationUser applicationUser = new ApplicationUser() { Id = user.Id, UserName = user.UserName, Role = user.Role, Password = user.Password };
+            _context.Entry(applicationUser).State = EntityState.Modified;
 
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<IdentityUser>> Delete(int id)
         {
-            var users = await _context.Users.FindAsync(id);
+            var users = await _context.ApplicationUser.FindAsync(id);
             if (users == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(users);
+            _context.ApplicationUser.Remove(users);
             await _context.SaveChangesAsync();
 
             return users;
+        }
+        private bool UserExists(string id)
+        {
+            return _context.ApplicationUser.Any(e => e.Id == id);
         }
     }
 }
