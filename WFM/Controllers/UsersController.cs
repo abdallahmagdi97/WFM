@@ -57,8 +57,20 @@ namespace WFM.Controllers
             {
                 return BadRequest();
             }
-            ApplicationUser applicationUser = new ApplicationUser() { Id = user.Id, UserName = user.UserName, Role = user.Role, Password = user.Password };
-            _context.Entry(applicationUser).State = EntityState.Modified;
+            var appUser = await _context.ApplicationUser.FindAsync(id);
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                appUser.Password = user.Password;
+            }
+            if (!string.IsNullOrEmpty(user.Role))
+            {
+                appUser.Role = user.Role;
+            }
+            if (!string.IsNullOrEmpty(user.UserName))
+            {
+                appUser.UserName = user.UserName;
+            }
+            _context.Entry(appUser).State = EntityState.Modified;
 
             try
             {
@@ -76,11 +88,11 @@ namespace WFM.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new Response { Status = "Success", Message = "User updated successfully!" });
         }
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<IdentityUser>> Delete(int id)
+        public async Task<ActionResult<IdentityUser>> Delete(string id)
         {
             var users = await _context.ApplicationUser.FindAsync(id);
             if (users == null)

@@ -52,7 +52,7 @@ namespace WFM.Controllers
             var skills = new List<int>();
             for (int i = 0; i < techSkills.Count; i++)
             {
-                areas.Add(techSkills[i].SkillRefId);
+                skills.Add(techSkills[i].SkillRefId);
             }
             tech.Skills = skills.ToArray();
 

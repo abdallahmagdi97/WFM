@@ -35,14 +35,6 @@ namespace WFM
         {
             services.AddCors();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "WFM API",
-                    Version = "v1"
-                });
-            });
 
             services.AddControllers();
 
@@ -77,8 +69,15 @@ namespace WFM
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "WFM API",
+                    Version = "v1"
+                });
+            });
 
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
