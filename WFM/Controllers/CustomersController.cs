@@ -52,14 +52,7 @@ namespace WFM.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Meter>>> GetCustomerMeters(int id)
         {
-            var meters = await _context.Meter.Where(x => x.CustomerRefId == id).ToListAsync();
-            
-            if (meters == null)
-            {
-                return NotFound();
-            }
-
-            return meters;
+            return await _context.Meter.Where(x => x.CustomerRefId == id).ToListAsync();  
         }
         // GET: api/Customers/5
         [HttpGet("{id}")]
