@@ -32,7 +32,7 @@ namespace WFM.Controllers
             List<UserModel> usersList = new List<UserModel>();
             foreach (var user in appUsers)
             {
-                usersList.Add(new UserModel() { Id = user.Id, UserName = user.UserName, Role = user.Role, Password = user.Password });
+                usersList.Add(new UserModel() { Id = user.Id, UserName = user.UserName, Role = user.Role });
             }
             return usersList;
         }
@@ -42,7 +42,7 @@ namespace WFM.Controllers
         public async Task<ActionResult<UserModel>> Get(int id)
         {
             var user = await _context.ApplicationUser.FindAsync(id);
-            return new UserModel() { UserName = user.UserName, Role = user.Role, Password = user.Password };
+            return new UserModel() { UserName = user.UserName, Role = user.Role };
         }
 
         // POST api/<UsersController>

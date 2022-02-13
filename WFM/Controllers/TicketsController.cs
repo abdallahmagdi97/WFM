@@ -190,7 +190,6 @@ namespace WFM.Controllers
             foreach (var skill in ticket.Skills)
             {
                 var ticketSkill = new TicketSkills() { TicketRefId = ticket.Id, SkillRefId = skill };
-                ticket.Skills.Add(skill);
                 _context.TicketSkills.Add(ticketSkill);
             }
             await _context.SaveChangesAsync();
