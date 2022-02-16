@@ -97,7 +97,11 @@ namespace WFM.Controllers
             {
                 return NotFound();
             }
-
+            var addresses = await _context.Address.Where(a => a.AreaRefId == id).ToListAsync();
+            if (addresses.Count != 0)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Can't delete area becuase there are Addresses assigned to it!" });
+            }
             _context.Area.Remove(area);
             await _context.SaveChangesAsync();
 

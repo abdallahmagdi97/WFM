@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,10 +11,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WFM.Models;
-using WFM.Models.Users;
 
 namespace WFM.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase
@@ -28,7 +29,6 @@ namespace WFM.Controllers
             this.roleManager = roleManager;
             _configuration = configuration;
         }
-
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -67,7 +67,7 @@ namespace WFM.Controllers
             }
             return Unauthorized();
         }
-
+        [Authorize]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)

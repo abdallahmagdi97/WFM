@@ -9020,11 +9020,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aedris\\source\\repos\\WFM\\WFM\\WFM.csproj",
+      "projectUniqueName": "C:\\Users\\aedris\\source\\WFM\\WFM\\WFM.csproj",
       "projectName": "WFM",
-      "projectPath": "C:\\Users\\aedris\\source\\repos\\WFM\\WFM\\WFM.csproj",
+      "projectPath": "C:\\Users\\aedris\\source\\WFM\\WFM\\WFM.csproj",
       "packagesPath": "C:\\Users\\aedris\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aedris\\source\\repos\\WFM\\WFM\\obj\\",
+      "outputPath": "C:\\Users\\aedris\\source\\WFM\\WFM\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

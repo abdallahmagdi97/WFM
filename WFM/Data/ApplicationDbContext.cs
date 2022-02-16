@@ -17,7 +17,7 @@ namespace WFM.Data
         {
             base.OnModelCreating(builder);
         }
-        public DbSet<WFM.Models.Users.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<WFM.Models.ApplicationUser> ApplicationUser { get; set; }
         public DbSet<WFM.Models.Customer> Customer { get; set; }
         public DbSet<WFM.Models.Tech> Tech { get; set; }
         public DbSet<WFM.Models.Meter> Meter { get; set; }
@@ -30,6 +30,11 @@ namespace WFM.Data
         public DbSet<WFM.Models.TicketSkills> TicketSkills { get; set; }
         public DbSet<WFM.Models.CustomerMeters> CustomerMeters { get; set; }
         public DbSet<WFM.Models.TechSkills> TechSkills { get; set; }
+<<<<<<< HEAD
         public DbSet<WFM.Models.CustomerAddress> CustomerAddresses { get; set; }
+=======
+        public DbSet<WFM.Models.TechAreas> TechAreas { get; set; }
+        //public DbSet<WFM.Models.CustomerModel> CustomerModel { get; set; }
+>>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
     }
 }

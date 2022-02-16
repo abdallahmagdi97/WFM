@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using WFM.Data;
 using WFM.Models;
 using Microsoft.AspNetCore.Authorization;
-using WFM.Models.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace WFM.Controllers
@@ -38,11 +37,24 @@ namespace WFM.Controllers
         public async Task<ActionResult<Tech>> GetTech(int id)
         {
             var tech = await _context.Tech.FindAsync(id);
-
             if (tech == null)
             {
                 return NotFound();
             }
+            var techAreas = await _context.TechAreas.Where(t => t.TechRefId == id).ToListAsync();
+            var areas = new List<int>();
+            for (int i = 0; i < techAreas.Count; i++)
+            {
+                areas.Add(techAreas[i].AreaRefId);
+            }
+            tech.Areas = areas.ToArray();
+            var techSkills = await _context.TechSkills.Where(t => t.TechRefId == id).ToListAsync();
+            var skills = new List<int>();
+            for (int i = 0; i < techSkills.Count; i++)
+            {
+                skills.Add(techSkills[i].SkillRefId);
+            }
+            tech.Skills = skills.ToArray();
 
             return tech;
         }
@@ -98,9 +110,19 @@ namespace WFM.Controllers
                 Role = "Tech"
             };
             var result = await _userManager.CreateAsync(user, tech.Password);
+            await _context.SaveChangesAsync();
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Tech user creation failed! Please check user details and try again." });
-
+            if (tech.Areas != null)
+            {
+                for (int i = 0; i < tech.Areas.Length; i++)
+                    _context.TechAreas.Add(new TechAreas() { TechRefId = tech.Id, AreaRefId = tech.Areas[i] });
+            }
+            if (tech.Skills != null)
+            {
+                for (int i = 0; i < tech.Skills.Length; i++)
+                    _context.TechSkills.Add(new TechSkills() { TechRefId = tech.Id, SkillRefId = tech.Skills[i] });
+            }
             await _context.SaveChangesAsync();
 
             return Ok(new Response { Status = "Success", Message = "Tech user created successfully!" });

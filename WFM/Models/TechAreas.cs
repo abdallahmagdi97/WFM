@@ -14,6 +14,6 @@ namespace WFM.Models
         [ForeignKey("Tech")]
         public int TechRefId { get; set; }
         [ForeignKey("Area")]
-        public int AreasRefId { get; set; }
+        public int AreaRefId { get; set; }
     }
 }

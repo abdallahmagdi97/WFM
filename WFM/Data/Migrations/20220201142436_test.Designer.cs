@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WFM.Data;
 
 namespace WFM.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220201142436_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,11 +233,7 @@ namespace WFM.Data.Migrations
                     b.Property<int>("AreaRefId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-                    b.Property<int>("CustomerId")
-=======
                     b.Property<int>("CustomerRefId")
->>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -248,8 +246,6 @@ namespace WFM.Data.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Address");
                 });
@@ -300,12 +296,6 @@ namespace WFM.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-<<<<<<< HEAD
-=======
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
->>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
@@ -321,24 +311,6 @@ namespace WFM.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customer");
-                });
-
-            modelBuilder.Entity("WFM.Models.CustomerAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AddressRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerAddresses");
                 });
 
             modelBuilder.Entity("WFM.Models.CustomerMeters", b =>
@@ -437,24 +409,6 @@ namespace WFM.Data.Migrations
                     b.ToTable("Tech");
                 });
 
-            modelBuilder.Entity("WFM.Models.TechAreas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AreasRefId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TechRefId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TechAreas");
-                });
-
             modelBuilder.Entity("WFM.Models.TechSkills", b =>
                 {
                     b.Property<int>("Id")
@@ -527,7 +481,7 @@ namespace WFM.Data.Migrations
                     b.ToTable("TicketSkills");
                 });
 
-            modelBuilder.Entity("WFM.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WFM.Models.Users.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -590,18 +544,6 @@ namespace WFM.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
-<<<<<<< HEAD
-
-            modelBuilder.Entity("WFM.Models.Address", b =>
-                {
-                    b.HasOne("WFM.Models.Customer", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-=======
->>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
 #pragma warning restore 612, 618
         }
     }

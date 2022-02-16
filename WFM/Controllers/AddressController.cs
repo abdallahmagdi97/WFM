@@ -97,7 +97,12 @@ namespace WFM.Controllers
             {
                 return NotFound();
             }
+            var tickets = await _context.Ticket.Where(t => t.AddressRefId == id).ToListAsync();
+            if (tickets.Count != 0)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Can't delete address becuase there are Tickets assigned to it!" });
 
+            }
             _context.Address.Remove(address);
             await _context.SaveChangesAsync();
 

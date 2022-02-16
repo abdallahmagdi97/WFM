@@ -13,6 +13,10 @@ namespace WFM.Models
         public float Longitude { get; set; }
         public float Latitude { get; set; }
         [ForeignKey("Customer")]
+<<<<<<< HEAD
         public virtual int CustomerId { get; set; }
+=======
+        public int CustomerRefId { get; set; }
+>>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
     }
 }

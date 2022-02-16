@@ -25,5 +25,7 @@ namespace WFM.Models
         [ForeignKey("Status")]
         public int StatusRefId { get; set; }
         public string Description { get; set; }
+        [NotMapped]
+        public List<int> Skills { get; set; }
     }
 }

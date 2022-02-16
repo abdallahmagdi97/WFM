@@ -25,15 +25,40 @@ namespace WFM.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<IEnumerable<CustomerModel>>> GetCustomer()
         {
-            return await _context.Customer.ToListAsync();
+            var customers = await _context.Customer.ToListAsync();
+            var customerModel = new List<CustomerModel>();
+            for (int i = 0; i< customers.Count; i++)
+            {
+                Customer customer = new Customer()
+                {
+                    Id = customers[i].Id,
+                    Name = customers[i].Name,
+                    NationalID = customers[i].NationalID,
+                    Mobile = customers[i].Mobile,
+                    Number = customers[i].Number
+                };
+                customerModel.Add(new CustomerModel()
+                {
+                    Customer = customer,
+                    Addresses = await _context.Address.Where(x => x.CustomerRefId == customers[i].Id).ToListAsync()
+            });
+            }
+            return customerModel;
         }
-
+        // GET: api/Customers/GetCustomerMeters/5
+        [Route("GetCustomerMeters/{id}")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Meter>>> GetCustomerMeters(int id)
+        {
+            return await _context.Meter.Where(x => x.CustomerRefId == id).ToListAsync();  
+        }
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<CustomerModel>> GetCustomer(int id)
         {
+<<<<<<< HEAD
             var customer = await _context.Customer.FindAsync(id);
             var customerAddresses = await _context.CustomerAddresses.Where(x => x.CustomerRefId == id).ToListAsync();
             foreach (var customerAddress in customerAddresses)
@@ -42,20 +67,28 @@ namespace WFM.Controllers
                 customer.Addresses.Add(address);
             }
             if (customer == null)
+=======
+            CustomerModel customerModel = new CustomerModel()
+            {
+                Customer = await _context.Customer.FindAsync(id),
+                Addresses = await _context.Address.Where(x => x.CustomerRefId == id).ToListAsync()
+            };
+            if (customerModel.Customer == null)
+>>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
             {
                 return NotFound();
             }
 
-            return customer;
+            return customerModel;
         }
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(int id, CustomerModel customer)
         {
-            if (id != customer.Id)
+            if (id != customer.Customer.Id)
             {
                 return BadRequest();
             }
@@ -82,13 +115,13 @@ namespace WFM.Controllers
         }
 
         // POST: api/Customers
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(CustomerModel customer)
         {
-            _context.Customer.Add(customer);
+            customer.Customer.CreationDate = DateTime.Now;
+            _context.Customer.Add(customer.Customer);
             await _context.SaveChangesAsync();
+<<<<<<< HEAD
             for (int i = 0; i < customer.Addresses.Count; i++)
             {
                 _context.Address.Add(customer.Addresses[i]);
@@ -99,6 +132,22 @@ namespace WFM.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+=======
+            if (customer.Addresses != null)
+            {
+                if (customer.Addresses.Count != 0)
+                {
+                    for (int i = 0; i < customer.Addresses.Count; i++)
+                    {
+                        customer.Addresses[i].CustomerRefId = customer.Customer.Id;
+                        _context.Address.Add(customer.Addresses[i]);
+                        await _context.SaveChangesAsync();
+                    }
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return CreatedAtAction("GetCustomer", new { id = customer.Customer.Id }, customer);
+>>>>>>> 2f2a67bf8dfaf8d1c44e0a5cbb4c4d04404dd9e9
         }
 
         // DELETE: api/Customers/5
