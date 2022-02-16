@@ -30,5 +30,6 @@ namespace WFM.Data
         public DbSet<WFM.Models.TicketSkills> TicketSkills { get; set; }
         public DbSet<WFM.Models.CustomerMeters> CustomerMeters { get; set; }
         public DbSet<WFM.Models.TechSkills> TechSkills { get; set; }
+        public DbSet<WFM.Models.CustomerAddress> CustomerAddresses { get; set; }
     }
 }

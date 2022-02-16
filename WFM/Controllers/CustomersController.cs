@@ -35,7 +35,12 @@ namespace WFM.Controllers
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
-
+            var customerAddresses = await _context.CustomerAddresses.Where(x => x.CustomerRefId == id).ToListAsync();
+            foreach (var customerAddress in customerAddresses)
+            {
+                var address = await _context.Address.FindAsync(customerAddress.Id);
+                customer.Addresses.Add(address);
+            }
             if (customer == null)
             {
                 return NotFound();
@@ -83,6 +88,14 @@ namespace WFM.Controllers
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customer.Add(customer);
+            await _context.SaveChangesAsync();
+            for (int i = 0; i < customer.Addresses.Count; i++)
+            {
+                _context.Address.Add(customer.Addresses[i]);
+                await _context.SaveChangesAsync();
+                CustomerAddress customerAddress = new CustomerAddress() { CustomerRefId = customer.Id, AddressRefId = customer.Addresses[i].Id };
+                _context.CustomerAddresses.Add(customerAddress);
+            }
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);

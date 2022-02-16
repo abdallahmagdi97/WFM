@@ -12,6 +12,10 @@
     <Compile Remove="Data\Migrations\20220105140205_Adding Models and API Controllers.Designer.cs" />
     <Compile Remove="Data\Migrations\20220105141024_Adding Models and API Controllers.cs" />
     <Compile Remove="Data\Migrations\20220105141024_Adding Models and API Controllers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220131114728_add address customer id.cs" />
+    <Compile Remove="Data\Migrations\20220131114728_add address customer id.Designer.cs" />
+    <Compile Remove="Data\Migrations\20220131130756_add address customer id.cs" />
+    <Compile Remove="Data\Migrations\20220131130756_add address customer id.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

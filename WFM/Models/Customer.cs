@@ -15,8 +15,6 @@ namespace WFM.Models
         public string Number { get; set; }
         public string NationalID { get; set; }
         public string Mobile { get; set; }
-        public Address Address { get; set; }
-        [ForeignKey("Address")]
-        public int AddressRefId { get; set; }
+        public List<Address> Addresses { get; set; }
     }
 }
